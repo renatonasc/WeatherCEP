@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  weathercep-app:
+    image: golang:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: >
+        sh -c "
+        cd cmd &&
+        go mod download &&
+        go run main.go ||
+        echo 'Falha ao iniciar o servidor Go. Verifique os logs para mais detalhes.'"
+
+
+  
