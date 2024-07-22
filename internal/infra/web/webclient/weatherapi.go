@@ -6,8 +6,13 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"net/url"
 	"renatonasc/weathercep/internal/entity"
 )
+
+type WeatherService interface {
+	GetWeatherByLoctaion(location string) (*entity.WeaterRespose, error)
+}
 
 type WeatherAPIDTO struct {
 	Current struct {
@@ -25,7 +30,9 @@ func NewWeatherAPIClient() *WeatherAPIClient {
 func (w *WeatherAPIClient) GetWeatherByLoctaion(location string) (*entity.WeaterRespose, error) {
 
 	context := context.Background()
-	url := "https://api.weatherapi.com/v1/current.json?key=a9037ed280dd4f29940155900241807" + "&q=" + location + "&aqi=no"
+
+	encodedString := url.QueryEscape(location)
+	url := "https://api.weatherapi.com/v1/current.json?key=a9037ed280dd4f29940155900241807" + "&q=" + encodedString + "&aqi=no"
 	req, err := http.NewRequestWithContext(context, http.MethodGet, url, nil)
 	if err != nil {
 		return nil, err

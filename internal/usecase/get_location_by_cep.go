@@ -8,6 +8,7 @@ import (
 )
 
 type GetLocationByCepUseCase struct {
+	CepService webclient.CepService
 }
 
 func (u *GetLocationByCepUseCase) Execute(cep string) (string, error) {
@@ -19,7 +20,7 @@ func (u *GetLocationByCepUseCase) Execute(cep string) (string, error) {
 		return "", errors.New("CEP deve conter 8 digitos")
 	}
 
-	location, err := webclient.NewViaCepClient().GetLocationByCep(cep)
+	location, err := u.CepService.GetLocationByCep(cep)
 	if err != nil {
 		return "", err
 	}

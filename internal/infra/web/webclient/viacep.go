@@ -8,6 +8,10 @@ import (
 	"net/http"
 )
 
+type CepService interface {
+	GetLocationByCep(cep string) (string, error)
+}
+
 type ViaCepDTO struct {
 	Cep        string `json:"cep"`
 	Logradouro string `json:"logradouro"`

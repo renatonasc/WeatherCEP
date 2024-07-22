@@ -6,11 +6,12 @@ import (
 )
 
 type GetWeatherByLocationUsecase struct {
+	WeatherService webclient.WeatherService
 }
 
 func (u *GetWeatherByLocationUsecase) Execute(location string) (*entity.WeaterRespose, error) {
 
-	weather, err := webclient.NewWeatherAPIClient().GetWeatherByLoctaion(location)
+	weather, err := u.WeatherService.GetWeatherByLoctaion(location) //   webclient.NewWeatherAPIClient().GetWeatherByLoctaion(location)
 	if err != nil {
 		return nil, err
 	}

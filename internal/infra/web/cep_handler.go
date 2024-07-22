@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"renatonasc/weathercep/internal/infra/web/webclient"
 	"renatonasc/weathercep/internal/usecase"
 
 	"github.com/go-chi/chi/v5"
@@ -29,7 +30,10 @@ func (h *CepHandler) GetWeatherByCep(w http.ResponseWriter, r *http.Request) {
 	}
 
 	log.Println("CEP informado: ", cep)
-	getWeatherByCepUsecase := usecase.GetWeatherByCepUseCase{}
+	getWeatherByCepUsecase := usecase.GetWeatherByCepUseCase{
+		CepService:     webclient.NewViaCepClient(),
+		WeatherService: webclient.NewWeatherAPIClient(),
+	}
 	weather, err := getWeatherByCepUsecase.Execute(cep)
 	if err != nil {
 		if err.Error() == "CEP deve conter 8 digitos" {
